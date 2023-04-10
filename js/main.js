@@ -22,17 +22,39 @@ producto.forEach(producto=>{
     cardsContainer.appendChild(card);
 })
 //producto = null;
-function getProducto(){
-    return new Promise((resolve, reject)=>{
-       if (producto==null){
-        reject(new Error("Producto no existe"));
-       }//if ==null
+//function getProducto(){
+ //   return new Promise((resolve, reject)=>{
+ //      if (producto==null){
+//        reject(new Error("Producto no existe"));
+ //      }//if ==null
        
-    setTimeout( ()=>{
-        resolve(producto);
-    }, 5000); 
-    }); //newPromise
-} // getProducto
+//    setTimeout( ()=>{
+//        resolve(producto);
+//    }, 5000); 
+//    }); //newPromise
+//} // getProducto
+function getProducto(){    //con fetch
+    let promesa= fetch("https://fakestoreapi.com/products",{
+       method: "GET"
+});
+promesa.then( (response) => {
+   response.json().then( (prods) => {
+         //createCards (prods);
+         console.log("prods=>json()");
+         console.log(prods);
+       }// prods
+   )//then jason
+   .catch( (err) => {
+       console.error("Error en el formato de la respuesta: " + err.message);
+   }); // catch json
+}// response
+)//then
+.catch( (error) => {
+   console.error("Error en la respuesta " + error.message);
+}); //catch promesa
+}//getProducto
+
+
 getProducto()
-              .then((prod)=> console.log(prod) )
-              .catch((err)=> console.log(err.message) );
+              //.then((prod)=> console.log(prod) )
+              //.catch((err)=> console.log(err.message) );
